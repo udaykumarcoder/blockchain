@@ -3,7 +3,9 @@ import './BlockCard.css';
 
 export function BlockCard({ block, isGenesis, isInvalid, onTamper }) {
     const [tamperData, setTamperData] = useState(JSON.stringify(block.data, null, 2));
+    const [originalData] = useState(JSON.stringify(block.data, null, 2)); // preserve original
     const [isEditing, setIsEditing] = useState(false);
+    const [showComparison, setShowComparison] = useState(false);
 
     const handleTamper = () => {
         try {
@@ -16,6 +18,7 @@ export function BlockCard({ block, isGenesis, isInvalid, onTamper }) {
             }
             onTamper(block.hash, dataToSet);
             setIsEditing(false);
+            setShowComparison(true); // show original vs tampered
         } catch (error) {
             console.error("Invalid tamper data");
         }
@@ -66,6 +69,20 @@ export function BlockCard({ block, isGenesis, isInvalid, onTamper }) {
                     <span className="mono">{block.nonce}</span>
                 </div>
             </div>
+
+            {/* Show original vs tampered data after tampering */}
+            {showComparison && (
+                <div className="tamper-comparison">
+                    <div className="original-data">
+                        <h4>Original Data</h4>
+                        <pre className="data-preview">{originalData}</pre>
+                    </div>
+                    <div className="tampered-data">
+                        <h4>Tampered Data</h4>
+                        <pre className="data-preview">{JSON.stringify(block.data, null, 2)}</pre>
+                    </div>
+                </div>
+            )}
 
             {!isGenesis && !isEditing && (
                 <div className="block-footer">
