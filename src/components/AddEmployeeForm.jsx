@@ -5,21 +5,24 @@ export function AddEmployeeForm({ onAdd, isMining }) {
     const [name, setName] = useState('');
     const [role, setRole] = useState('');
     const [department, setDepartment] = useState('');
+    const [address, setAddress] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!name || !role || !department) return;
+        if (!name || !role || !department || !address) return;
 
         onAdd({
             name,
             role,
             department,
+            address,
             id: "E-" + Math.random().toString(36).substring(2, 9).toUpperCase()
         });
 
         setName('');
         setRole('');
         setDepartment('');
+        setAddress('');
     };
 
     return (
@@ -71,10 +74,23 @@ export function AddEmployeeForm({ onAdd, isMining }) {
                     </div>
                 </div>
 
+                <div className="form-group">
+                    <label htmlFor="address">Wallet / Home Address</label>
+                    <input
+                        id="address"
+                        type="text"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        placeholder="e.g. 0x... or 123 Main St"
+                        disabled={isMining}
+                        required
+                    />
+                </div>
+
                 <button
                     type="submit"
                     className={`btn-primary add-btn ${isMining ? 'mining' : ''}`}
-                    disabled={isMining || !name || !role || !department}
+                    disabled={isMining || !name || !role || !department || !address}
                 >
                     {isMining ? (
                         <span className="mining-loader">

@@ -21,6 +21,7 @@ export function EmployeeList({ chain, onClose }) {
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Address</th>
                                     <th>Name</th>
                                     <th>Role</th>
                                     <th>Department</th>
@@ -30,6 +31,7 @@ export function EmployeeList({ chain, onClose }) {
                                 {employees.map((emp, index) => (
                                     <tr key={emp.id || index}>
                                         <td className="mono">{emp.id}</td>
+                                        <td className="mono" style={{ fontSize: '0.85rem', maxWidth: '150px', overflow: 'hidden', textOverflow: 'ellipsis' }} title={emp.address}>{emp.address}</td>
                                         <td><strong>{emp.name}</strong></td>
                                         <td>{emp.role}</td>
                                         <td>
